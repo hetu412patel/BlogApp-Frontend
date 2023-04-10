@@ -7,8 +7,21 @@ const token = uData?.token
 export const addUser = createAsyncThunk(
     "blog/addUser",
     async () => {
-        return fetch(`${APIS.USER_API}/alluser`, {
-            headers: { 'Authorization': 'Bearer ' + token }}).then((res)=> res.json())
+        // return fetch(`${APIS.USER_API}/alluser`, {
+        //     headers: { 'Authorization': 'Bearer ' + token }}).then((res)=> res.json())
+
+        try {
+            const response = await axios.get(`${APIS.USER_API}/alluser`, {headers: { 'Authorization': 'Bearer ' + token }});
+            const users = await response?.data;
+            if (users?.length > 0) {
+                return users;
+            } else {
+                toast.error("No users Found");
+            }
+               
+            } catch (error) {
+                toast.error(error?.response?.data?.msg);
+            }
     })
 
 const userSlice = createSlice({
