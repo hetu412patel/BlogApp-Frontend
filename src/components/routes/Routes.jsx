@@ -9,6 +9,7 @@ import Forgetpassword from '../pages/Forgetpassword'
 import Users from '../pages/Users';
 import Blogs from '../pages/Blogs';
 import Myblogs from '../pages/Myblogs';
+import BlogDetail from '../pages/BlogDetail';
   
 const Routes = () => {
 
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
         {path: "/about",element: <About />},
         {path: "/blogs",element: <Blogs />},
         {path: "/myblogs",element: <Myblogs />},
+        {path: "/blogDetail/:id",element: <BlogDetail />},
         {path: "/login",element: <Login />},
         {path: "/register",element: <Register />},
         {path: "/forgetpassword",element: <Forgetpassword />}

@@ -3,8 +3,8 @@ import {APIS} from "../url/url"
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export const addBlog = createAsyncThunk(
-    "blog/addBlog",
+export const getBlogs = createAsyncThunk(
+    "blog/getBlogs",
     async () => {
         try {
              const response = await axios.get(`${APIS.BLOG_API}/allblogs`);
@@ -28,14 +28,14 @@ const blogSlice = createSlice({
         error:null
     },
     extraReducers:{
-        [addBlog.pending]:(state,action) => {
+        [getBlogs.pending]:(state,action) => {
             state.loading = true
         },
-        [addBlog.fulfilled]:(state,action) => {
+        [getBlogs.fulfilled]:(state,action) => {
             state.loading = false
             state.blog = action.payload
         },
-        [addBlog.rejected]:(state,action) => {
+        [getBlogs.rejected]:(state,action) => {
             state.loading = false
             state.error = action.payload
         }

@@ -17,11 +17,16 @@ import NavAvatar from './NavAvatar';
 const Navbar = ({handleDrawerClose,handleDrawerOpen,theme,AppBar,drawerWidth,open,DrawerHeader}) => {
 
     const navigate = useNavigate()
+
+    const userData = JSON.parse(localStorage.getItem("Udata"))
+    const role = userData?.data?.role
+    const token = userData?.token
+    
   return (
     <>
     <AppBar position="fixed" open={open} style={{backgroundColor: "black"}}>
         <Toolbar>
-          <IconButton
+          { role === "admin" && <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
@@ -29,7 +34,7 @@ const Navbar = ({handleDrawerClose,handleDrawerOpen,theme,AppBar,drawerWidth,ope
             sx={{ mr: 2, ...(open && { display: 'none' }) }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton>}
           <Typography variant="h6" noWrap component="div" sx={{ color:'#66fcf1' , flexGrow: 1, cursor: "pointer" }}>
             BLOG
           </Typography>
@@ -53,14 +58,13 @@ const Navbar = ({handleDrawerClose,handleDrawerOpen,theme,AppBar,drawerWidth,ope
             </div>
 
             <div style={{ margin: '5px 20px'}}>
-                {/* <NavLink 
+                { token ? <NavAvatar /> : <NavLink 
                     to='/login' 
                     style={({ isActive }) => ({ color: isActive ? '#66fcf1' : 'white' , fontWeight: isActive ? 'bolder' : 'normal' , textDecoration: 'none'})}
                     >
                     Login
-                </NavLink>  */}
-                {/* <Avatar sx={{ background: '#66fcf1', color: '#000000' }}>H</Avatar> */}
-                <NavAvatar />
+                </NavLink> }
+                
             </div>
         </Toolbar>
       </AppBar>

@@ -1,7 +1,48 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { loginUser } from '../../services/userApi'
 
 const Login = () => {
+
+  const navigate = useNavigate()
+
+  const [email,setEmail] = useState('')
+  const [password,setPassword] = useState('')
+  
+  const validate = () => {
+    let result = true
+
+    if(email === '' && password === ''){
+      result = false;
+      toast.warning("All fields are required")
+    }
+    else if(email === null || email === ''){
+      result = false;
+      toast.warning("Please enter username")
+    }
+    else if(password === null || password === ''){
+      result = false;
+      toast.warning("Please enter password")
+    }
+    return result
+  }
+
+  const submitHandler = async (e) => {
+    e.preventDefault()
+
+    let loginData = {email, password}
+    if(validate()){
+      const data = await loginUser(loginData)
+      
+      if(data){
+        localStorage.setItem("Udata", JSON.stringify(data))
+        navigate("/blogs")
+      }
+    }
+  }
+
   return (
     <div>
       <div className="container">
@@ -12,12 +53,12 @@ const Login = () => {
           <div className="col-md-6 bg-white p-5">
             <h3 className="pb-3">Login Form</h3>
             <div className="form-style">
-              <form>
+              <form onSubmit={submitHandler}>
                 <div className="form-outline mb-4">
-                    <input type="email" id="email" name='email' placeholder="Email" className="form-control form-control-lg" />
+                    <input type="email" id="email" name='email' placeholder="Email" className="form-control form-control-lg" value={email} onChange={e => setEmail(e.target.value)}/>
                 </div>
                 <div className="form-outline mb-4">
-                  <input type="password" placeholder="Password" name='password' className="form-control form-control-lg" id="password" />
+                  <input type="password" placeholder="Password" name='password' className="form-control form-control-lg" id="password" value={password} onChange={e => setPassword(e.target.value)}/>
                 </div>
                 <div className="d-flex align-items-center justify-content-between">
                   <div className="d-flex align-items-center"><input name="" type="checkbox" value="" /> <span className="pl-2 font-weight-bold">Remember Me</span></div>
@@ -27,10 +68,10 @@ const Login = () => {
                   <button type="submit" className="btn w-100 font-weight-bold mt-2" style={{background:'#000000', color: '#ffffff'}}>Submit</button>
                 </div>
               </form>
-              <div className="sideline" style={{marginLeft : '14vw'}}>OR</div>
+              {/* <div className="sideline" style={{marginLeft : '14vw'}}>OR</div>
               <div>
                 <button type="submit" className="btn w-100 font-weight-bold mt-2" style={{background:'#66fcf1'}}><i className="fa fa-facebook" aria-hidden="true"></i> Login With Facebook</button>
-              </div>
+              </div> */}
               <div className="pt-4 text-center">
                 Get Members Benefit. 
                 <NavLink to='/register'>Sign Up</NavLink>

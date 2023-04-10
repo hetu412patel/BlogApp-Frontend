@@ -9,9 +9,14 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 export default function AccountMenu() {
+    const userData = JSON.parse(localStorage.getItem("Udata"))
+    const userName = userData.data.name
+
     const navigate = useNavigate()
     const [anchorEl, setAnchorEl] = React.useState(null);
+
     const open = Boolean(anchorEl);
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -21,6 +26,7 @@ export default function AccountMenu() {
     const logoutHandler = () => {
         navigate('/login')
         toast.success("Logout Successfully")
+        localStorage.removeItem("Udata")
     }
   return (
     <React.Fragment>
@@ -34,7 +40,7 @@ export default function AccountMenu() {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar sx={{ background: '#66fcf1', color: '#000000' }}>H</Avatar>
+            <Avatar sx={{ background: '#66fcf1', color: '#000000' }} alt={userName} src='...'></Avatar>
           </IconButton>
         </Tooltip>
       </Box>

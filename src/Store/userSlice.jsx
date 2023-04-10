@@ -1,24 +1,23 @@
 import { createSlice, createAsyncThunk} from "@reduxjs/toolkit"
 import {APIS} from "../url/url"
+import axios from "axios";
+import { toast } from "react-toastify";
 
-const uData = JSON.parse(localStorage.getItem('Udata'));
-const token = uData?.token
+    const userData = JSON.parse(localStorage.getItem("Udata"))
+    const token = userData?.token
 
-export const addUser = createAsyncThunk(
-    "blog/addUser",
+export const getUser = createAsyncThunk(
+    "blog/getUser",
     async () => {
-        // return fetch(`${APIS.USER_API}/alluser`, {
-        //     headers: { 'Authorization': 'Bearer ' + token }}).then((res)=> res.json())
-
+       
         try {
-            const response = await axios.get(`${APIS.USER_API}/alluser`, {headers: { 'Authorization': 'Bearer ' + token }});
+            const response = await axios.get(`${APIS.USER_API}/alluser`, {headers: { 'Authorization': 'Bearer ' + token}}); 
             const users = await response?.data;
-            if (users?.length > 0) {
-                return users;
-            } else {
+            if (!users) {
                 toast.error("No users Found");
-            }
-               
+            } else {
+                return users;
+            } 
             } catch (error) {
                 toast.error(error?.response?.data?.msg);
             }
@@ -32,14 +31,14 @@ const userSlice = createSlice({
         error:null
     },
     extraReducers:{
-        [addUser.pending]:(state,action) => {
+        [getUser.pending]:(state,action) => {
             state.loading = true
         },
-        [addUser.fulfilled]:(state,action) => {
+        [getUser.fulfilled]:(state,action) => {
             state.loading = false
             state.user = action.payload
         },
-        [addUser.rejected]:(state,action) => {
+        [getUser.rejected]:(state,action) => {
             state.loading = false
             state.error = action.payload
         }

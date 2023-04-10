@@ -2,12 +2,11 @@ import React, { useState } from 'react'
 import './Register.css'
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { APIS } from '../../url/url';
+import { registerUser } from '../../services/userApi';
 
 const Register = () => {
-
   const navigate = useNavigate()
-
+  
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -16,7 +15,7 @@ const Register = () => {
 
   const isValidate = () => {
     let isProceed = true;
-    // let pattern = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"
+
     if(name === '' && email === "" && confirmpassword === "" && password === "" && address === ""){
       isProceed = false;
       toast.warning("All the field is required")
@@ -51,25 +50,10 @@ const Register = () => {
   const submitHandler = (e) => {
     e.preventDefault()
 
-    let registerUser = {name, email, password, confirmpassword, address}
+    let userData = {name, email, password, confirmpassword, address}
     if(isValidate()){
-      console.log(registerUser);
-
-      fetch(`${APIS.USER_API}/register`, {
-        method: "POST", 
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(registerUser)
-      })
-      .then(response => response.json())
-      .then(data => {
-        toast.success('User Registered Successfully')
-        navigate('/login')
-        // console.log("fdgd", data);
-        return data
-      })
-      .catch((err) => {
-        toast.error('Failed :' + err.message)
-      })
+      registerUser(userData)
+      navigate("/login")
     }
   }
   
