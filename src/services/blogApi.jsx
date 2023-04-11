@@ -23,9 +23,10 @@ export const addBlogs = async (blog) => {
 };
 
 export const updateBlog = async (blog) => {
-  console.log("blog", blog);
+
   const uData = JSON.parse(localStorage.getItem('Udata'));
   const token = uData?.token
+  
   try {
     const response = await axios.patch(`${APIS.BLOG_API}/update/${blog.id}`, blog, {
       headers: { 'Authorization': 'Bearer ' + token }
@@ -36,7 +37,7 @@ export const updateBlog = async (blog) => {
       toast.success("Blog Updated Successfully");
       return true;
     } else {
-      toast.error("You can not Update this Blog");
+      toast.error("Blog was not updated");
     }
   } catch (error) {
     toast.error(error.message);
@@ -60,6 +61,7 @@ export const deleteBlog = async (id) => {
       toast.error("Blog can't delete");
     }
   } catch (error) {
+    console.log("error", error);
     toast.error(error.message);
   }
 };

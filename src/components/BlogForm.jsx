@@ -7,7 +7,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import { addBlogs } from '../services/blogApi';
 import { getBlogs } from '../Store/blogSlice';
 import { useDispatch } from 'react-redux';
-import './BlogForm.css'
+import './BlogForm.css' 
 
 const style = {
     position: 'absolute',
@@ -21,8 +21,8 @@ const style = {
     p: 4,
 };
 
-export default function BasicModal() {
-
+export default function BlogForm({blogData}) {
+    
     const dispatch = useDispatch()
 
     const userData = JSON.parse(localStorage.getItem("Udata"))
@@ -38,7 +38,7 @@ export default function BasicModal() {
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
+    
     const submitHandler = async(e) => {
         e.preventDefault()
         
@@ -55,13 +55,13 @@ export default function BasicModal() {
             dispatch(getBlogs())
     }
 
-    useEffect(() => {  
+    useEffect(() => {
         dispatch(getBlogs())
     },[dispatch])
 
     return (
         <div>
-            <Button variant="contained" style={{ marginLeft: "83vw" }} onClick={handleOpen}>Add Blog</Button>
+            {!blogData && <Button variant="contained" style={{ marginLeft: "83vw" }} onClick={handleOpen}>Add Blog</Button>}
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -70,7 +70,7 @@ export default function BasicModal() {
             >
                 <Box sx={style}>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        ADD BLOG
+                        {blogData ? "UPDATE BLOG" : "ADD BLOG"}
                         <CloseIcon style={{marginLeft: "40vw", cursor: "pointer" }} onClick={handleClose} />
                     </Typography>
 
@@ -99,9 +99,9 @@ export default function BasicModal() {
                                 <div className="col-75">
                                     <select id="category" name="category" value={category} onChange={(e => setCategory(e.target.value))} >
                                         <option>Select Blog Category</option>
-                                        <option value="cs-it">CS-IT</option>
-                                        <option value="food">FOOD</option>
-                                        <option value="travel">TRAVEL</option>
+                                        <option value="CS-IT">CS-IT</option>
+                                        <option value="FOOD">FOOD</option>
+                                        <option value="TRAVEL">TRAVEL</option>
                                     </select>
                                 </div>
                             </div>

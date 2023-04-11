@@ -19,10 +19,12 @@ export const registerUser = async(data) => {
 }
 
 export const loginUser = async(data) => {
+  
   try{
-    const response = await axios.post(`${APIS.USER_API}/login`, data, { 
+    const response = await axios.post(`${APIS.USER_API}/login`, data , { 
       headers: { 'Content-Type': 'application/json'}
     })
+
     const user = await response?.data
     const token = user?.token
 
@@ -33,7 +35,7 @@ export const loginUser = async(data) => {
       return user
     }
   }catch(e){
-    toast.error("error", e.message)
+    toast.error(e.response.data.message)
   } 
 }
 

@@ -6,10 +6,11 @@ import About from '../pages/About'
 import Login from '../pages/Login';
 import Register from '../pages/Register'
 import Forgetpassword from '../pages/Forgetpassword'
+import Resetpassword from '../pages/Resetpassword';
 import Users from '../pages/Users';
 import Blogs from '../pages/Blogs';
-import Myblogs from '../pages/Myblogs';
 import BlogDetail from '../pages/BlogDetail';
+import Error from '../pages/Error'
   
 const Routes = () => {
 
@@ -21,11 +22,13 @@ const router = createBrowserRouter([
         {path: "/users",element: <Users />},
         {path: "/about",element: <About />},
         {path: "/blogs",element: <Blogs />},
-        {path: "/myblogs",element: <Myblogs />},
+        {path: "/myblogs",element: <Blogs />},
         {path: "/blogDetail/:id",element: <BlogDetail />},
         {path: "/login",element: <Login />},
         {path: "/register",element: <Register />},
-        {path: "/forgetpassword",element: <Forgetpassword />}
+        {path: "/forgetpassword/:id/:token",element: <Forgetpassword />},
+        {path: "/resetpassword",element: <Resetpassword />},        
+        {path: "*",element: <Error />},        
       ],
     },
   ]);
