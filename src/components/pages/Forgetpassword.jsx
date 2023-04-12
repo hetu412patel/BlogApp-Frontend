@@ -31,15 +31,30 @@ const Forgetpassword = () => {
     return flag
   }
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault()
     if(validate()){
-      ChangePassword(password, confirmpassword, id, token, navigate)
+      const response = await ChangePassword(password, confirmpassword, id, token)
+
+      if(response.status === 200){
+        toast.success("Password Update Successfully")
+        navigate("/login")
+      }else{
+        toast.error("Link expired Generate new Link")
+      }
     }
   }
 
   useEffect(() => {
-    ValidateUser(id, token, navigate)
+    const fetchData = async() => {
+      const response = await ValidateUser(id, token)
+      if(response.status === 200){
+        toast.success("user validate succesfully")
+      }else{
+        navigate("/login")
+      }
+    }
+    fetchData()
   },[id, token, navigate])
 
   return (

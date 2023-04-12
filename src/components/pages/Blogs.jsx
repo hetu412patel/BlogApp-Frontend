@@ -11,10 +11,14 @@ import BlogForm from '../BlogForm'
 import 'ag-grid-community/styles/ag-grid.css'; 
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { toast } from 'react-toastify';
+import { Button } from '@mui/material';
 
 const AllBlogs = () => {
 
   const pathname = window.location.pathname
+
+  const [open, setOpen] = useState(false);
+  const [blogData, setBlogData] = useState(null);
 
   const blogs = useSelector(state => state.app.blog)
   const dispatch = useDispatch()
@@ -39,8 +43,8 @@ const AllBlogs = () => {
 
   const editHandler = useCallback((data) => {
     if(currentUserId === data.userId){
-      console.log(data);
-      // return <BlogForm blogData={data} />
+      setBlogData(data)
+      handleOpen()
     }else{
       toast.error("You can't update another admin blog")
     }
@@ -80,16 +84,25 @@ const AllBlogs = () => {
         dispatch(getBlogs())
       },[dispatch])
 
+      const handleOpen = () => setOpen(true);
+      
+      const handleClose = () => {
+        setOpen(false);
+        setBlogData(null)
+      }
+
   return (
     <div>
-      {(role === 'admin') && <BlogForm />}
+      {(role === 'admin') && <Button variant="contained" style={{ marginLeft: "83vw", background: "#000000", color: "#66fcf1", fontWeight: "bolder" }} onClick={handleOpen}>Add Blog</Button>}
         <div className='ag-theme-alpine' style={{height:400, width: 1160, margin: '20px 90px'}}>
             <AgGridReact 
               rowData = {pathname !== "/blogs" ? filterMyBlog : blogs} 
               columnDefs = {columnDefs}
+              pagination={true}
               paginationAutoPageSize={true}
               animateRows={true}
              />
+             <BlogForm open={open} handleClose={handleClose} blogData={blogData} />
         </div>
     </div>
   )

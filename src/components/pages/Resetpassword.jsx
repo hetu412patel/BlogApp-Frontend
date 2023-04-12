@@ -15,11 +15,16 @@ const Resetpassword = () => {
     return flag
   }
 
-  const sendLink = (e) => {
+  const sendLink = async (e) => {
     e.preventDefault()
 
     if(validate()){
-      ForgetPasswordLink(email)
+      const response = await ForgetPasswordLink(email)
+      if(response.status === 200){
+        toast.success("Password reset link send successfully in your Email")
+      }else{
+        toast.error("Invalid User")
+      }
       setEmail('')
     }
   }

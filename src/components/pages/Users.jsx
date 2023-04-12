@@ -29,7 +29,8 @@ const style = {
 
 const Users = () => {
 
-  const users = useSelector(state => state.user.user)
+  const users = useSelector(state => state?.user?.user)
+  console.log(users);
   const dispatch = useDispatch()
 
   const [open, setOpen] = useState(false);
@@ -105,8 +106,9 @@ const Users = () => {
 
       <div className='ag-theme-alpine' style={{ height: 400, width: 1007, margin: '50px 90px' }}>
         <AgGridReact
-          rowData={users.data}
+          rowData={users}
           columnDefs={columnDefs}
+          pagination={true}
           paginationAutoPageSize={true}
           animateRows={true}
         />

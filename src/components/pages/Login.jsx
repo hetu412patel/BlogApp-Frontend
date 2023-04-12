@@ -35,7 +35,6 @@ const Login = () => {
     let loginData = {email, password}
     if(validate()){
       const data = await loginUser(loginData)
-      // console.log(data);
       if(data){
         localStorage.setItem("Udata", JSON.stringify(data))
         navigate("/blogs")

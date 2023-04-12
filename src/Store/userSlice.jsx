@@ -12,7 +12,8 @@ export const getUser = createAsyncThunk(
        
         try {
             const response = await axios.get(`${APIS.USER_API}/alluser`, {headers: { 'Authorization': 'Bearer ' + token}}); 
-            const users = await response?.data;
+
+            const users = await response?.data?.data;
             if (!users) {
                 toast.error("No users Found");
             } else {

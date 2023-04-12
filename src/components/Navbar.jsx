@@ -41,7 +41,7 @@ const Navbar = ({handleDrawerClose,handleDrawerOpen,theme,AppBar,drawerWidth,ope
 
           <div style={{ margin: '5px 20px'}}>
                 <NavLink 
-                    to='/blogs' 
+                    to='/blogs'
                     style={({ isActive }) => ({ color: isActive ? '#66fcf1' : 'white' , fontWeight: isActive ? 'bolder' : 'normal' , textDecoration: 'none'})}
                     >
                     Home
@@ -82,14 +82,14 @@ const Navbar = ({handleDrawerClose,handleDrawerOpen,theme,AppBar,drawerWidth,ope
         open={open}
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={handleDrawerClose} >
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
 
         <List>
-          <ListItem disablePadding onClick = {()=> navigate("/myBlogs")}>
+          <ListItem disablePadding onClick = {()=> navigate("/myblogs")}>
               <ListItemButton>
                 <ListItemText primary="My Blog" />
               </ListItemButton>

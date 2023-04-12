@@ -23,12 +23,14 @@ export const addBlogs = async (blog) => {
 };
 
 export const updateBlog = async (blog) => {
-
+ 
   const uData = JSON.parse(localStorage.getItem('Udata'));
   const token = uData?.token
+
+  const id = blog.get("_id");
   
   try {
-    const response = await axios.patch(`${APIS.BLOG_API}/update/${blog.id}`, blog, {
+    const response = await axios.patch(`${APIS.BLOG_API}/update/${id}`, blog, {
       headers: { 'Authorization': 'Bearer ' + token }
     });
     const updatedBlog = await response?.data;

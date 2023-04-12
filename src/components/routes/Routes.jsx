@@ -1,5 +1,6 @@
 import React from 'react'
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {ProtectedAdminRoute, ProtectedLoginRoute, ProtectedLogoutRoute} from '../auth/protectedRoutes'
 
 import Home from '../pages/Home';
 import About from '../pages/About'
@@ -19,14 +20,14 @@ const router = createBrowserRouter([
       path: "/",
       element: <Home />,
       children: [
-        {path: "/users",element: <Users />},
+        {path: "/users",element: <ProtectedAdminRoute><Users /></ProtectedAdminRoute>},
         {path: "/about",element: <About />},
         {path: "/blogs",element: <Blogs />},
-        {path: "/myblogs",element: <Blogs />},
-        {path: "/blogDetail/:id",element: <BlogDetail />},
-        {path: "/login",element: <Login />},
-        {path: "/register",element: <Register />},
-        {path: "/forgetpassword/:id/:token",element: <Forgetpassword />},
+        {path: "/myblogs",element: <ProtectedAdminRoute><Blogs /></ProtectedAdminRoute>},
+        {path: "/blogDetail/:id",element: <ProtectedLoginRoute><BlogDetail /></ProtectedLoginRoute>},
+        {path: "/login",element: <ProtectedLogoutRoute><Login /></ProtectedLogoutRoute>},
+        {path: "/register",element: <ProtectedLogoutRoute><Register /></ProtectedLogoutRoute>},
+        {path: "/forgetpassword/:id/:token",element: <ProtectedLogoutRoute><Forgetpassword /></ProtectedLogoutRoute>},
         {path: "/resetpassword",element: <Resetpassword />},        
         {path: "*",element: <Error />},        
       ],
