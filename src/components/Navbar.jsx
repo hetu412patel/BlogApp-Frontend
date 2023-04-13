@@ -58,7 +58,7 @@ const Navbar = ({handleDrawerClose,handleDrawerOpen,theme,AppBar,drawerWidth,ope
             </div>
 
             <div style={{ margin: '5px 20px'}}>
-                { token ? <NavAvatar /> : <NavLink 
+                { token ? <NavAvatar handleDrawerClose={handleDrawerClose}/> : <NavLink 
                     to='/login' 
                     style={({ isActive }) => ({ color: isActive ? '#66fcf1' : 'white' , fontWeight: isActive ? 'bolder' : 'normal' , textDecoration: 'none'})}
                     >

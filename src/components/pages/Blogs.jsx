@@ -28,7 +28,8 @@ const AllBlogs = () => {
   const role = userData?.data?.role
   const currentUserId = userData?.data?._id
 
-  const filterMyBlog = blogs.filter(blog => blog.userId === currentUserId)
+  const filterMyBlog = blogs.filter(blog => blog.userId._id === currentUserId)
+  console.log(filterMyBlog);
 
   const deleteHandler = useCallback(async(data) => {
     if(currentUserId === data.userId){
@@ -49,6 +50,12 @@ const AllBlogs = () => {
       toast.error("You can't update another admin blog")
     }
   },[currentUserId])
+
+  const nameHandler = useCallback((e) => {
+    if(token){
+      return e.data.userId.name
+    }
+  },[token])
 
   const viewHandler = useCallback((e) => {
     if(token){
@@ -74,11 +81,12 @@ const AllBlogs = () => {
           setColumnDefs([
             {field:'title', sortable: true, filter: true, cellRenderer: viewHandler},
             {field:'description', sortable: true, filter: true, width: 550, maxWidth: 900},
+            {field:'Writer-Name', sortable: true, filter: true, cellRenderer: nameHandler},
             {field:'author', sortable: true, filter: true},
             {field:'category', sortable: true, filter: true},
             { field: 'action', cellRenderer: actionHandler }
           ])
-      }},[token, viewHandler, actionHandler, role])
+      }},[token, viewHandler, actionHandler, role, nameHandler])
 
       useEffect(() => {
         dispatch(getBlogs())

@@ -8,7 +8,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-export default function AccountMenu() {
+export default function AccountMenu({handleDrawerClose}) {
     const userData = JSON.parse(localStorage.getItem("Udata"))
     const userName = userData.data.name
 
@@ -24,6 +24,7 @@ export default function AccountMenu() {
         setAnchorEl(null);
     };
     const logoutHandler = () => {
+        handleDrawerClose()
         navigate('/login')
         toast.success("Logout Successfully")
         localStorage.removeItem("Udata")

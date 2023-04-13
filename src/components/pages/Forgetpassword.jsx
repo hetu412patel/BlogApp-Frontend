@@ -40,7 +40,7 @@ const Forgetpassword = () => {
         toast.success("Password Update Successfully")
         navigate("/login")
       }else{
-        toast.error("Link expired Generate new Link")
+        toast.error("Password not Updated")
       }
     }
   }
@@ -48,10 +48,11 @@ const Forgetpassword = () => {
   useEffect(() => {
     const fetchData = async() => {
       const response = await ValidateUser(id, token)
-      if(response.status === 200){
+      if(response){
         toast.success("user validate succesfully")
       }else{
-        navigate("/login")
+        toast.error("Password Reset Link expired, Generate new Link")
+        navigate("*")
       }
     }
     fetchData()

@@ -19,14 +19,13 @@ export const registerUser = async(data) => {
 }
 
 export const loginUser = async(data) => {
-  console.log("data",data);
   
   try{
     const response = await axios.post(`${APIS.USER_API}/login`, data , { 
       headers: { 'Content-Type': 'application/json'}
     })
     
-    console.log(response);
+    // console.log(response);
     const user = await response?.data
     const token = user?.token
 
