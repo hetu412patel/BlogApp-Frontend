@@ -1,17 +1,16 @@
-import axios from "axios";
+// import axios from "axios";
 import { toast } from "react-toastify";
-import { APIS } from "../url/url"
+import { instance } from "../components/auth/interceptor";
+// import { APIS } from "../url/url"
 
 export const addBlogs = async (blog) => {
-  const uData = JSON.parse(localStorage.getItem('Udata'));
-  const token = uData?.token
+  // const uData = JSON.parse(localStorage.getItem('Udata'));
+  // const token = uData?.token
 
   try {
-    const response = await axios.post(`${APIS.BLOG_API}/addblog`, blog, {
-      headers: { 'Authorization': 'Bearer ' + token }
-    });
-
-    const addedBlog = await response?.data.data;
+    const response = await instance.post(`/blogs/addblog`, blog );
+    const addedBlog = await response?.data?.data;
+    
     if (addedBlog) {
       toast.success("Blog Added Successfully");
     }else{
@@ -24,15 +23,13 @@ export const addBlogs = async (blog) => {
 
 export const updateBlog = async (blog) => {
  
-  const uData = JSON.parse(localStorage.getItem('Udata'));
-  const token = uData?.token
+  // const uData = JSON.parse(localStorage.getItem('Udata'));
+  // const token = uData?.token
 
   const id = blog.get("_id");
   
   try {
-    const response = await axios.patch(`${APIS.BLOG_API}/update/${id}`, blog, {
-      headers: { 'Authorization': 'Bearer ' + token }
-    });
+    const response = await instance.patch(`/blogs/update/${id}`, blog );
     const updatedBlog = await response?.data;
 
     if (updatedBlog) {
@@ -48,14 +45,11 @@ export const updateBlog = async (blog) => {
 
 export const deleteBlog = async (id) => {
   
-  const uData = JSON.parse(localStorage.getItem('Udata'));
-  const token = uData?.token
+  // const uData = JSON.parse(localStorage.getItem('Udata'));
+  // const token = uData?.token
   try {
-    const response = await axios.delete(
-      `${APIS.BLOG_API}/delete/${id}`,
-      {
-        headers: { 'Authorization': 'Bearer ' + token }
-      }
+    const response = await instance.delete(
+      `/blogs/delete/${id}`,
     );
     if (response.status === 200) {
       toast.success("Blog Deleted Successfully");
@@ -70,7 +64,7 @@ export const deleteBlog = async (id) => {
 
 export const blogDetail = async(id) => {
   try{
-    const response = await axios.get(`${APIS.BLOG_API}/blog/${id}`)
+    const response = await instance.get(`/blogs/blog/${id}`)
     const blog = response?.data.data
     
     if(!blog){

@@ -1,68 +1,79 @@
-// import axios from "axios";
+import axios from "axios";
 
-// const getLocalAccessToken = () => {
-//     const accessToken = localStorage.getItem("accessToken");
-//     return accessToken;
-// }
+const getLocalAccessToken = () => {
+    const data = JSON.parse(localStorage.getItem("Udata"));
+    const accessToken = data?.token;
+    return accessToken;
+}
   
-// const getLocalRefreshToken = () => {
-//     const refreshToken = localStorage.getItem("refreshToken");
-//     return refreshToken;
-// }
+const getLocalRefreshToken = () => {
+    const data = JSON.parse(localStorage.getItem("Udata"));
+    const refreshToken = data?.refreshToken;
+    console.log("refreshToken",refreshToken);
+    return refreshToken;
+}
 
-// const instance = axios.create({
-//     baseURL: process.env.REACT_APP_BLOG_APP_URL,
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-// });
+const refreshToken = () => {
+  console.log("gkiujhnk", getLocalRefreshToken());
+  return instance.post("/users/refreshtoken",{
+     refreshtoken: getLocalRefreshToken()
+  })
+}
 
-// instance.interceptors.request.use(
-//     (config) => {
-//       const token = getLocalAccessToken();
-//       if (token) {
-//         config.headers['Authorization']  = `Bearer ${token}`;
-//       }
-//       return config;
-//     },
-//     (error) => {
-//       return Promise.reject(error);
-//     }
-// );
+export const instance = axios.create({
+    baseURL: process.env.REACT_APP_BLOG_APP_URL,
+});
 
-// instance.interceptors.response.use(
-//     (res) => {
-//       return res;
-//     },
-//     async (err) => {
-//       const originalConfig = err.config;
+instance.interceptors.request.use(
+    (config) => {
+      const token = getLocalAccessToken();
+      if (token) {
+        config.headers['Authorization']  = 'Bearer ' + token;
+      }
+      return config;
+    },
+    (error) => {
+      console.log(error);
+      return Promise.reject(error);
+    }
+);
+
+instance.interceptors.response.use(
+    (res) => {
+      return res;
+    },
+    async (err) => {
+      const originalConfig = err.config;
   
-//       if (err.response) {
-//         // Access Token was expired
-//         if (err.response.status === 401 && !originalConfig._retry) {
-//           originalConfig._retry = true;
+      if (err.response) {
+        if (err.response.status === 419 && !originalConfig._retry) {
+          originalConfig._retry = true;
   
-//           try {
-//             const rs = await getLocalRefreshToken();
-//             const { accessToken } = rs.data;
-//             window.localStorage.setItem("accessToken", accessToken);
-//             instance.defaults.headers.common["x-access-token"] = accessToken;
+          console.log("req resended");
+
+          try {
+            const rs = await refreshToken();
+            const token  = rs?.data?.token;
+
+            const userData = JSON.parse(localStorage.getItem("Udata"))
+            localStorage.setItem("Udata", JSON.stringify({...userData, token}));
+            instance.defaults.headers.common['Authorization']  = 'Bearer ' + token
   
-//             return instance(originalConfig);
-//           } catch (_error) {
-//             if (_error.response && _error.response.data) {
-//               return Promise.reject(_error.response.data);
-//             }
+            return instance(originalConfig);
+          } catch (_error) {
+            if (_error?.response && _error?.response?.data) {
+              return Promise.reject(_error?.response?.data);
+            }
   
-//             return Promise.reject(_error);
-//           }
-//         }
+            return Promise.reject(_error);
+          }
+        }
   
-//         if (err.response.status === 403 && err.response.data) {
-//           return Promise.reject(err.response.data);
-//         }
-//       }
+        if (err?.response?.status === 403 && err?.response?.data) {
+          return Promise.reject(err?.response?.data);
+        }
+      }
   
-//       return Promise.reject(err);
-//     }
-//   );
+      return Promise.reject(err);
+    }
+  );

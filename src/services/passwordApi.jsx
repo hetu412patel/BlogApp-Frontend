@@ -1,12 +1,11 @@
-import axios from "axios";
-import { APIS } from "../url/url"
+// import axios from "axios";
+// import { APIS } from "../url/url"
 import {toast} from 'react-toastify'
+import { instance } from '../components/auth/interceptor'
 
 export const ValidateUser = async(id, token) => {
     try{
-        const response = await axios.get(`${APIS.PASSWORD_API}/forgetpassword/${id}/${token}`, {
-            headers: {"Content-Type" : "application/json"}
-          })
+        const response = await instance.get(`/password/forgetpassword/${id}/${token}`)
         return response  
     }catch(e){
         toast.error(e)
@@ -15,7 +14,7 @@ export const ValidateUser = async(id, token) => {
 
 export const ForgetPasswordLink = async(email) => {
     try{
-        const response = await axios.post(`${APIS.PASSWORD_API}/sendpasswordlink`, {email : email})
+        const response = await instance.post(`/password/sendpasswordlink`, {email : email})
         return response
     }catch(e){
         toast.error(e)
@@ -24,9 +23,7 @@ export const ForgetPasswordLink = async(email) => {
 
 export const ChangePassword = async(password, confirmpassword, id, token) => {
     try{
-        const response = await axios.patch(`${APIS.PASSWORD_API}/${id}/${token}`, {password: password, confirmpassword: confirmpassword} , {
-            headers: {"Content-Type" : "application/json"}
-          })
+        const response = await instance.patch(`/password/${id}/${token}`, {password: password, confirmpassword: confirmpassword} )
 
         return response
 

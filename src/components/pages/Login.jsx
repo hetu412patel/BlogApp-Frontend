@@ -31,7 +31,6 @@ const Login = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault()
-
     let loginData = {email, password}
     if(validate()){
       const data = await loginUser(loginData)
@@ -66,10 +65,10 @@ const Login = () => {
                   <button type="submit" className="btn w-100 font-weight-bold mt-2" style={{background:'#000000', color: '#ffffff'}}>Login</button>
                 </div>
               </form>
-              <div className="sideline" style={{marginLeft : '14vw'}}>OR</div>
+              {/* <div className="sideline" style={{marginLeft : '14vw'}}>OR</div>
               <div>
                 <button type="submit" className="btn w-100 font-weight-bold mt-2" style={{background:'#66fcf1'}}><i className="fa fa-google" aria-hidden="true"></i> Login With Google</button>
-              </div>
+              </div> */}
               <div className="pt-4 text-center">
                 Get Members Benefit. 
                 <NavLink to='/register'>Sign Up</NavLink>

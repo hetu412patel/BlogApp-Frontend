@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 
 export default function AccountMenu({handleDrawerClose}) {
     const userData = JSON.parse(localStorage.getItem("Udata"))
-    const userName = userData.data.name
+    const userName = userData.data?.name
 
     const navigate = useNavigate()
     const [anchorEl, setAnchorEl] = React.useState(null);

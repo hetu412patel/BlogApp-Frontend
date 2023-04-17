@@ -1,13 +1,14 @@
 import { createSlice, createAsyncThunk} from "@reduxjs/toolkit"
-import {APIS} from "../url/url"
-import axios from "axios";
+// import {APIS} from "../url/url"
+// import axios from "axios";
+import { instance } from "../components/auth/interceptor";
 import { toast } from "react-toastify";
 
 export const getBlogs = createAsyncThunk(
     "blog/getBlogs",
     async () => {
         try {
-             const response = await axios.get(`${APIS.BLOG_API}/allblogs`);
+             const response = await instance.get(`/blogs/allblogs`);
              const blogs = await response?.data;
              if (blogs?.length > 0) {
                 return blogs;
@@ -16,7 +17,7 @@ export const getBlogs = createAsyncThunk(
              }
             
              } catch (error) {
-                toast.error(error?.response?.data?.msg);
+                toast.error(error?.response?.data?.message);
             }
     })
 

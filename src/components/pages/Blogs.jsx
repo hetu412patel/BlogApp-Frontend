@@ -20,7 +20,7 @@ const AllBlogs = () => {
   const [open, setOpen] = useState(false);
   const [blogData, setBlogData] = useState(null);
 
-  const blogs = useSelector(state => state.app.blog)
+  const blogs = useSelector(state => state?.app?.blog)
   const dispatch = useDispatch()
 
   const userData = JSON.parse(localStorage.getItem("Udata"))
@@ -28,13 +28,14 @@ const AllBlogs = () => {
   const role = userData?.data?.role
   const currentUserId = userData?.data?._id
 
-  const filterMyBlog = blogs.filter(blog => blog.userId._id === currentUserId)
-  console.log(filterMyBlog);
+  const filterMyBlog = blogs?.filter(blog => blog?.userId === currentUserId)
+  
 
   const deleteHandler = useCallback(async(data) => {
-    if(currentUserId === data.userId){
+    
+    if(currentUserId === data?.userId?._id){
       if (window.confirm("Do you want to delete?")) {
-        await deleteBlog(data._id)
+        await deleteBlog(data?._id)
         dispatch(getBlogs())
       }
     }else{
@@ -43,7 +44,7 @@ const AllBlogs = () => {
   },[currentUserId, dispatch])
 
   const editHandler = useCallback((data) => {
-    if(currentUserId === data.userId){
+    if(currentUserId === data?.userId?._id){
       setBlogData(data)
       handleOpen()
     }else{
@@ -53,13 +54,17 @@ const AllBlogs = () => {
 
   const nameHandler = useCallback((e) => {
     if(token){
-      return e.data.userId.name
+      const userData = e.data?.userData
+      for (let i = 0; i < userData?.length; i++) {
+        const name = userData[i].name;
+        return name
+      }
     }
   },[token])
 
   const viewHandler = useCallback((e) => {
     if(token){
-      return <Link to={`/blogDetail/${e.data._id}`} style={{textDecoration:"none", color:"black", fontWeight:"bolder"}}>{e.value}</Link>
+      return <Link to={`/blogDetail/${e.data?._id}`} style={{textDecoration:"none", color:"black", fontWeight:"bolder"}}>{e.value}</Link>
     }else{
       return e.value
     }
@@ -72,6 +77,7 @@ const AllBlogs = () => {
     const [columnDefs, setColumnDefs] = useState([
         {field:'title', sortable: true, filter: true, cellRenderer: viewHandler },
         {field:'description', sortable: true, filter: true, width: 550, maxWidth: 900},
+        {field:'Writer-Name', sortable: true, filter: true, cellRenderer: nameHandler},
         {field:'author', sortable: true, filter: true},
         {field:'category', sortable: true, filter: true}
       ])

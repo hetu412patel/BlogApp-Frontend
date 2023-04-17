@@ -30,7 +30,6 @@ const style = {
 const Users = () => {
 
   const users = useSelector(state => state?.user?.user)
-  // console.log(users);
   const dispatch = useDispatch()
 
   const [open, setOpen] = useState(false);

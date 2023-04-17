@@ -81,8 +81,8 @@ const Navbar = ({handleDrawerClose,handleDrawerOpen,theme,AppBar,drawerWidth,ope
         anchor="left"
         open={open}
       >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose} >
+        <DrawerHeader style={{backgroundColor:"#000000"}}>
+          <IconButton onClick={handleDrawerClose} style={{color:"#66fcf1",fontWeight: 'bolder'}}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>

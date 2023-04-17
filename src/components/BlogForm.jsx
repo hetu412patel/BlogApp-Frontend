@@ -21,8 +21,8 @@ const style = {
 };
 
 export default function BlogForm({open, handleClose, blogData}) {
-    const dispatch = useDispatch()
 
+    const dispatch = useDispatch()
     const userData = JSON.parse(localStorage.getItem("Udata"))
     const currentUserId = userData?.data?._id
 
@@ -44,7 +44,7 @@ export default function BlogForm({open, handleClose, blogData}) {
         formData.append('blogImage', blogImage)
 
         if(blogData){
-            formData.append('_id', blogData._id)
+            formData.append('_id', blogData?._id)
             await updateBlog(formData)
         }else{
             await addBlogs(formData)
@@ -59,11 +59,11 @@ export default function BlogForm({open, handleClose, blogData}) {
 
     useEffect(() => {
         if(blogData){
-            setTitle(blogData.title)
-            setDescription(blogData.description)
-            setAuthor(blogData.author)
-            setBlogImage(blogData.blogImage)
-            setCategory(blogData.category)
+            setTitle(blogData?.title)
+            setDescription(blogData?.description)
+            setAuthor(blogData?.author)
+            setBlogImage(blogData?.blogImage)
+            setCategory(blogData?.category)
         } else{
             setTitle('')
             setDescription('')

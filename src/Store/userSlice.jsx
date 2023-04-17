@@ -1,18 +1,16 @@
 import { createSlice, createAsyncThunk} from "@reduxjs/toolkit"
-import {APIS} from "../url/url"
-import axios from "axios";
 import { toast } from "react-toastify";
+import { instance } from "../components/auth/interceptor";
 
-    const userData = JSON.parse(localStorage.getItem("Udata"))
-    const token = userData?.token
+    // const userData = JSON.parse(localStorage.getItem("Udata"))
+    // const token = userData?.token
 
 export const getUser = createAsyncThunk(
     "blog/getUser",
     async () => {
        
         try {
-            const response = await axios.get(`${APIS.USER_API}/alluser`, {headers: { 'Authorization': 'Bearer ' + token}}); 
-
+            const response = await instance.get(`/users/alluser`); 
             const users = await response?.data?.data;
             if (!users) {
                 toast.error("No users Found");
@@ -20,7 +18,7 @@ export const getUser = createAsyncThunk(
                 return users;
             } 
             } catch (error) {
-                toast.error(error?.response?.data?.msg);
+                toast.error("Server error");
             }
     })
 

@@ -36,7 +36,7 @@ const Forgetpassword = () => {
     if(validate()){
       const response = await ChangePassword(password, confirmpassword, id, token)
 
-      if(response.status === 200){
+      if(response?.status === 200){
         toast.success("Password Update Successfully")
         navigate("/login")
       }else{
