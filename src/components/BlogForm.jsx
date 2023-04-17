@@ -87,7 +87,7 @@ export default function BlogForm({open, handleClose, blogData}) {
                     </Typography>
 
                     <div className="container">
-                        <form onSubmit={submitHandler}>
+                        <form onSubmit={submitHandler} encType='multipart/form-data'>
                             <div className="row">
                                 <div className="col-25">
                                     <label htmlFor="title">Title</label>

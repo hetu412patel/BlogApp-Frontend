@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const getLocalAccessToken = () => {
     const data = JSON.parse(localStorage.getItem("Udata"));
@@ -9,15 +10,13 @@ const getLocalAccessToken = () => {
 const getLocalRefreshToken = () => {
     const data = JSON.parse(localStorage.getItem("Udata"));
     const refreshToken = data?.refreshToken;
-    console.log("refreshToken",refreshToken);
     return refreshToken;
 }
 
 const refreshToken = () => {
-  console.log("gkiujhnk", getLocalRefreshToken());
-  return instance.post("/users/refreshtoken",{
-     refreshtoken: getLocalRefreshToken()
-  })
+    return instance.post("/users/refreshtoken",{
+       refreshtoken: getLocalRefreshToken()
+    })
 }
 
 export const instance = axios.create({
@@ -33,7 +32,7 @@ instance.interceptors.request.use(
       return config;
     },
     (error) => {
-      console.log(error);
+      console.log("Reqerror",error);
       return Promise.reject(error);
     }
 );
@@ -46,10 +45,13 @@ instance.interceptors.response.use(
       const originalConfig = err.config;
   
       if (err.response) {
+        if(err.response.status === 405){
+          window.location.href = '/login'
+          localStorage.removeItem("Udata")
+          toast.error("Login again due to token expiry")
+        }
         if (err.response.status === 419 && !originalConfig._retry) {
           originalConfig._retry = true;
-  
-          console.log("req resended");
 
           try {
             const rs = await refreshToken();

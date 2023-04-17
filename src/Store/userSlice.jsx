@@ -8,7 +8,7 @@ import { instance } from "../components/auth/interceptor";
 export const getUser = createAsyncThunk(
     "blog/getUser",
     async () => {
-       
+
         try {
             const response = await instance.get(`/users/alluser`); 
             const users = await response?.data?.data;
@@ -18,7 +18,8 @@ export const getUser = createAsyncThunk(
                 return users;
             } 
             } catch (error) {
-                toast.error("Server error");
+                toast.error(error.message);
+                
             }
     })
 

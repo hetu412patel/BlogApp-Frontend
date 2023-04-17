@@ -33,7 +33,7 @@ const AllBlogs = () => {
 
   const deleteHandler = useCallback(async(data) => {
     
-    if(currentUserId === data?.userId?._id){
+    if(currentUserId === data?.userId){
       if (window.confirm("Do you want to delete?")) {
         await deleteBlog(data?._id)
         dispatch(getBlogs())
@@ -44,7 +44,7 @@ const AllBlogs = () => {
   },[currentUserId, dispatch])
 
   const editHandler = useCallback((data) => {
-    if(currentUserId === data?.userId?._id){
+    if(currentUserId === data?.userId){
       setBlogData(data)
       handleOpen()
     }else{
