@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk} from "@reduxjs/toolkit"
 // import {APIS} from "../url/url"
 // import axios from "axios";
-import { instance } from "../components/auth/interceptor";
+import { instance } from "../services/interceptor";
 import { toast } from "react-toastify";
 
 export const getBlogs = createAsyncThunk(

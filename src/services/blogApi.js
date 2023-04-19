@@ -1,6 +1,6 @@
 // import axios from "axios";
 import { toast } from "react-toastify";
-import { instance } from "../components/auth/interceptor";
+import { instance } from "./interceptor";
 // import { APIS } from "../url/url"
 
 export const addBlogs = async (blog) => {

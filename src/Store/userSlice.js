@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk} from "@reduxjs/toolkit"
 import { toast } from "react-toastify";
-import { instance } from "../components/auth/interceptor";
+import { instance } from "../services/interceptor";
 
     // const userData = JSON.parse(localStorage.getItem("Udata"))
     // const token = userData?.token

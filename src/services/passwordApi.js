@@ -1,7 +1,7 @@
 // import axios from "axios";
 // import { APIS } from "../url/url"
 import {toast} from 'react-toastify'
-import { instance } from '../components/auth/interceptor'
+import { instance } from './interceptor'
 
 export const ValidateUser = async(id, token) => {
     try{

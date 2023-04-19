@@ -29,7 +29,6 @@ const AllBlogs = () => {
   const currentUserId = userData?.data?._id
 
   const filterMyBlog = blogs?.filter(blog => blog?.userId === currentUserId)
-  
 
   const deleteHandler = useCallback(async(data) => {
     
