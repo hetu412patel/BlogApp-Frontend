@@ -107,7 +107,7 @@ const AllBlogs = () => {
   return (
     <div>
       {(role === 'admin') && <Button variant="contained" style={{ marginLeft: "83vw", background: "#000000", color: "#66fcf1", fontWeight: "bolder" }} onClick={handleOpen}>Add Blog</Button>}
-        <div className='ag-theme-alpine' style={{height:400, width: 1160, margin: '20px 90px'}}>
+        <div className='ag-theme-alpine' style={{height:400, width: 1160, margin: '20px 45px'}}>
             <AgGridReact 
               rowData = {pathname !== "/blogs" ? filterMyBlog : blogs} 
               columnDefs = {columnDefs}
